@@ -1,0 +1,14 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "expenses-app.development.sqlite3"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "expenses-app.test.sqlite3"
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "expenses-app.production.sqlite3"
+  }
+}

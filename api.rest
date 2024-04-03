@@ -1,0 +1,78 @@
+POST http://localhost:3000 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+### Get categories
+GET http://localhost:3000/categories HTTP/1.1
+
+### Create category
+POST http://localhost:3000/categories HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Salary",
+    "type": "income"
+}
+
+### Get category by ID
+GET http://localhost:3000/categories/1 HTTP/1.1
+
+### Update category
+PUT http://localhost:3000/categories/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Salary",
+    "type": "income"
+}
+
+### Delete category
+DELETE http://localhost:3000/categories/1 HTTP/1.1
+
+### Get all records
+GET http://localhost:3000/records HTTP/1.1
+
+### Get all expenses
+GET http://localhost:3000/records/expense HTTP/1.1
+
+### Get all incomes
+GET http://localhost:3000/records/income HTTP/1.1
+
+### Create record
+POST http://localhost:3000/records HTTP/1.1
+content-type: application/json
+
+{
+    "amount": 800000,
+    "category": "Salary",
+    "date": "2023-03-01T09:00:00",
+    "deleted": false,
+    "name": "Salary",
+    "type": "income"
+}
+
+### Get all expenses
+GET http://localhost:3000/records/record/1 HTTP/1.1
+
+### Get all expenses
+PUT http://localhost:3000/records/1 HTTP/1.1
+content-type: application/json
+
+{
+    "amount": 5000,
+    "category": "Food",
+    "date": "2023-03-01T09:00:00",
+    "deleted": false,
+    "name": "Food friday",
+    "type": "expense"
+}
+
+### Move to trash
+DELETE http://localhost:3000/records/trash/1 HTTP/1.1
+
+### Delete permanently
+DELETE http://localhost:3000/records/1 HTTP/1.1
