@@ -1,14 +1,23 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "expenses-app.development.sqlite3"
+    "dialect": "postgres",
+    "database": "expenses-rest-api-development",
+    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres"
   },
   "test": {
-    "dialect": "sqlite",
-    "storage": "expenses-app.test.sqlite3"
+    "dialect": "postgres",
+    "database": "expenses-rest-api-test",
+    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres"
   },
   "production": {
-    "dialect": "sqlite",
-    "storage": "expenses-app.production.sqlite3"
+    "dialect": "postgres",
+    "database": "expenses-rest-api-production",
+    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres"
   }
 }

@@ -8,13 +8,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Record.belongsTo(models.Category, { as: "category" });
+      models.Record.belongsTo(models.Category, {
+        as: "category",
+        foreignKey: 'categoryId'
+      });
     }
   }
   Record.init(
     {
       amount: DataTypes.FLOAT,
-      categoryId: DataTypes.INTEGER,
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        references:{
+          model: 'categories',
+          key: 'id'
+        }
+      },
       date: DataTypes.DATE,
       name: {
         allowNull: false,
