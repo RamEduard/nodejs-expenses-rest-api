@@ -7,7 +7,8 @@
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
     "db:migrate": "sequelize-cli db:migrate",
-    "db:seed": "sequelize-cli db:seed:all"
+    "db:seed": "sequelize-cli db:seed:all",
+    "load:test": "artillery run artillery-load-testing.yml"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "artillery": "^2.0.9",
     "nodemon": "^3.1.0",
     "sequelize-cli": "^6.6.2"
   },
