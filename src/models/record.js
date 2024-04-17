@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       models.Record.belongsTo(models.Category, { as: "category" });
+      models.Record.belongsTo(models.User, { as: "user" });
     }
   }
   Record.init(

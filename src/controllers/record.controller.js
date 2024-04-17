@@ -2,7 +2,13 @@ import db from "../models/index.js";
 
 export class RecordController {
   static async getAll(req, res) {
-    const allRecords = await db.Record.findAll({ include: "category" });
+    const userId = req.user?.id;
+    const allRecords = await db.Record.findAll({
+      include: "category",
+      where: {
+        userId,
+      },
+    });
 
     res.json({
       data: allRecords,
@@ -11,10 +17,12 @@ export class RecordController {
 
   static async getAllByType(req, res) {
     const { type } = req.params;
+    const userId = req.user?.id;
     const allRecords = await db.Record.findAll({
       include: "category",
       where: {
         type,
+        userId,
       },
     });
 
@@ -26,9 +34,11 @@ export class RecordController {
   static async create(req, res) {
     try {
       const { amount, category, date, name, type } = req.body;
+      const userId = req.user?.id;
       const categoryFound = await db.Category.findOne({
         where: {
           name: category,
+          userId,
         },
       });
       const newRecord = db.Record.build({
@@ -37,6 +47,7 @@ export class RecordController {
         date: new Date(date),
         name,
         type,
+        userId,
       });
 
       if (!categoryFound) {
@@ -63,7 +74,14 @@ export class RecordController {
 
   static async getById(req, res) {
     const { id } = req.params;
-    const recordFound = await db.Record.findByPk(id);
+    const userId = req.user?.id;
+    const recordFound = await db.Record.findOne({
+      include: "category",
+      where: {
+        id,
+        userId,
+      },
+    });
 
     if (!recordFound) {
       return res.status(404).json({
@@ -82,17 +100,24 @@ export class RecordController {
     try {
       const { id } = req.params;
       const { amount, category, date, name, type } = req.body;
+      const userId = req.user?.id;
       const categoryFound = await db.Category.findOne({
         where: {
           name: category,
+          userId,
         },
       });
-      const recordFound = await db.Record.findByPk(id);
+      const recordFound = await db.Record.findOne({
+        where: {
+          id,
+          userId,
+        },
+      });
 
       if (!categoryFound || !recordFound) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: "Category or record invalid",
-          statusText: 400,
+          statusText: 404,
         });
       }
 
@@ -123,17 +148,19 @@ export class RecordController {
   static async trashById(req, res) {
     try {
       const { id } = req.params;
+      const userId = req.user?.id;
       const recordFound = await db.Record.findOne({
         where: {
           id,
           deleted: false,
+          userId,
         },
       });
 
       if (!recordFound) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: "Record invalid",
-          statusText: 400,
+          statusText: 404,
         });
       }
 
@@ -156,9 +183,11 @@ export class RecordController {
   static async deleteById(req, res) {
     try {
       const { id } = req.params;
+      const userId = req.user?.id;
       const recordFound = await db.Record.findOne({
         where: {
           id,
+          userId,
         },
       });
 
