@@ -1,15 +1,39 @@
-
+# GET /
 GET http://localhost:3000 HTTP/1.1
 
-### 
-
+### POST /
 POST http://localhost:3000 HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 {
     "name": "sample",
     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
 }
+
+### POST /auth/login
+POST http://localhost:3000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "123456$"
+}
+
+### POST /auth/register
+POST http://localhost:3000/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "fullName": "Test Example",
+    "password": "123456$"
+}
+
+### User Profile
+
+GET http://localhost:3000/profile HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMzMxMjA3NywiZXhwIjoxNzEzMzE1Njc3fQ.B9jNVs1kp8KWAe6KODrObX8djN5MnvlnfqeHBBYs8e8
 
 ### Get categories
 GET http://localhost:3000/categories HTTP/1.1

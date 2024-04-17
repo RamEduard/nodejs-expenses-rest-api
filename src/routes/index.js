@@ -1,4 +1,5 @@
 import { Router } from "express";
+import authRoutes from "./auth.routes.js";
 import categoryRoutes from "./category.routes.js";
 import recordRoutes from "./record.routes.js";
 
@@ -13,6 +14,7 @@ router.post("/", (req, res) => {
   res.json({ message: "Expenses REST API is working", data: body });
 });
 
+router.use(authRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/records", recordRoutes);
 
