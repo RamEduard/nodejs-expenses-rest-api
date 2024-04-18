@@ -1,8 +1,9 @@
-import { jwtOptions } from "../config/passport.js";
+import { jwtOptions } from "../config/jwt.js";
 import bcrypt from "bcrypt";
 import db from "../models/index.js";
 import jwt from "jsonwebtoken";
 
+export const tokensBlacklist = [];
 export class AuthController {
   static async login(req, res) {
     const { email, password } = req.body;
@@ -33,6 +34,7 @@ export class AuthController {
           expiresIn: expiresIn1Hour.toISOString(),
           jwt: jwtToken,
         },
+        message: "User authenticated successfully",
       });
     } catch (error) {
       console.error(`[AuthController] [login] ${error?.message}`, error?.stack);
@@ -41,6 +43,17 @@ export class AuthController {
         message: "Error authenticating user",
       });
     }
+  }
+
+  static async logout(req, res) {
+    const token = (req.headers?.authorization).replace("Bearer ", "");
+    const userId = req.user?.id;
+
+    tokensBlacklist.push(token);
+
+    return res.json({
+      message: "User logged out successfully",
+    });
   }
 
   static async register(req, res) {
@@ -61,7 +74,7 @@ export class AuthController {
       }
 
       const jwtToken = jwt.sign(
-        { userId: userFound.id },
+        { userId: userRegistered.id },
         jwtOptions.secretOrKey,
         { expiresIn: "1h" }
       );

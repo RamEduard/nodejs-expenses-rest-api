@@ -2,7 +2,7 @@ import { Router } from "express";
 import authRoutes from "./auth.routes.js";
 import categoryRoutes from "./category.routes.js";
 import recordRoutes from "./record.routes.js";
-import { authorizeCallback } from "../config/passport.js";
+import { authorizeCallback } from "../config/jwt.js";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
 });
 
 router.use(authRoutes);
-router.use("/categories", authorizeCallback(), categoryRoutes);
-router.use("/records", authorizeCallback(), recordRoutes);
+router.use("/categories", authorizeCallback, categoryRoutes);
+router.use("/records", authorizeCallback, recordRoutes);
 
 export default router;
