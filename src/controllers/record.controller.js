@@ -1,11 +1,19 @@
 import db from "../models/index.js";
+import { RecordService } from "../services/record.service.js";
 
 export class RecordController {
   static async getAll(req, res) {
-    const allRecords = await db.Record.findAll({ include: "category" });
+    const { page = 1, limit = 12 } = req.query;
+    const recordService = new RecordService(db.Record);
+
+    const paginatedResults = await recordService.getPaginated({
+      page: +page,
+      limit: +limit,
+    });
 
     res.json({
-      data: allRecords,
+      ...paginatedResults,
+      message: "Records paginated",
     });
   }
 
@@ -181,5 +189,42 @@ export class RecordController {
         message: "Error deleting record",
       });
     }
+  }
+
+  static async getTotals(req, res) {
+    const { from, to } = req.params;
+    const recordService = new RecordService(db.Record);
+
+    const totals = await recordService.getTotals(from, to);
+
+    res.json({
+      data: totals,
+      message: `Totals from ${from} to ${to}`,
+    });
+  }
+
+  static async getTotalsByCategory(req, res) {
+    const { from, to } = req.params;
+    const recordService = new RecordService(db.Record);
+
+    const totalsByCategory = await recordService.getTotalsByCategory(from, to);
+
+    res.json({
+      data: totalsByCategory,
+      message: `Totals grouped by category from ${from} to ${to}`,
+    });
+  }
+
+  static async getTotalsByMonth(req, res) {
+    const { from, to } = req.params;
+
+    const recordService = new RecordService(db.Record);
+
+    const totalsByMonth = await recordService.getTotalsByMonth(from, to);
+
+    res.json({
+      data: totalsByMonth,
+      message: `Totals grouped by month from ${from} to ${to}`,
+    });
   }
 }
