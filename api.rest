@@ -39,13 +39,22 @@ content-type: application/json
 DELETE http://localhost:3000/categories/1 HTTP/1.1
 
 ### Get all records
-GET http://localhost:3000/records HTTP/1.1
+GET http://localhost:3000/records?page=1&limit=12 HTTP/1.1
 
 ### Get all expenses
 GET http://localhost:3000/records/expense HTTP/1.1
 
 ### Get all incomes
 GET http://localhost:3000/records/income HTTP/1.1
+
+### Totals (From, To)
+GET http://localhost:3000/records/totals/2024-01-01/2024-04-30 HTTP/1.1
+
+### Totals grouped by category (From, To)
+GET http://localhost:3000/records/totals/by-category/2024-01-01/2024-04-30 HTTP/1.1
+
+### Totals grouped by month (From, To)
+GET http://localhost:3000/records/totals/by-month/2024-01-01/2024-04-30 HTTP/1.1
 
 ### Create record
 POST http://localhost:3000/records HTTP/1.1
