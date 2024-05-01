@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-expenses-deployment
+  labels:
+    app: node-expenses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-expenses
+  template:
+    metadata:
+      labels:
+        app: node-expenses
+    spec:
+      containers:
+      - name: node-expenses
+        image: rameduard/node-expenses-rest-api
+        ports:
+        - containerPort: 3000
+        env:
+        - name: POSTGRES_URL
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: postgres-url
+        - name: POSTGRES_DB
+          value: expenses-development
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-expenses-service
+spec:
+  type: NodePort
+  selector:
+    app: node-expenses
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000 
+      nodePort: 31000
+
